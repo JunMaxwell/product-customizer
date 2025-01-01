@@ -19,6 +19,7 @@ function App({ position = new Vector3(0, 0, 2.5), fov = 25 }) {
         shadows
         camera={{ position, fov }}
         eventSource={document.getElementById('root')!}
+        style={{ background: 'white' }}
         eventPrefix="client"
       >
         {performance && <Perf position='top-left' />}

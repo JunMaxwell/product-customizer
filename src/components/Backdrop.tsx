@@ -1,6 +1,6 @@
 import { AccumulativeShadows, RandomizedLight } from '@react-three/drei'
 import { ReactThreeFiber } from '@react-three/fiber';
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import * as THREE from 'three'
 type SoftShadowMaterialProps = {
     map: THREE.Texture;
@@ -19,7 +19,7 @@ interface AccumulativeContext {
     update: (frames?: number) => void;
 }
 
-export const Backdrop: React.FC = () => {
+export const Backdrop = () => {
     const shadows = useRef<AccumulativeContext>(null)
 
     return (
