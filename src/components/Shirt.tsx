@@ -27,4 +27,3 @@ export function Shirt(props: JSX.IntrinsicElements['group']) {
         </group>
     )
 }
-useGLTF.preload('/shirt_baked-transformed.glb')
