@@ -16,10 +16,13 @@ type GLTFResult = GLTF & {
     }
 }
 export function Shirt(props: JSX.IntrinsicElements['group']) {
-    const { nodes, materials } = useGLTF('../public/shirt_baked-transformed.glb') as GLTFResult
+    const { nodes, materials } = useGLTF('/shirt_baked-transformed.glb') as GLTFResult
     return (
         <group {...props} dispose={null}>
-            <mesh geometry={nodes.T_Shirt_male.geometry} material={materials.lambert1} position={[0.419, 0, 0]} rotation={[Math.PI / 2, 0, 0]}
+            <mesh
+                geometry={nodes.T_Shirt_male.geometry}
+                material={materials.lambert1}
+                rotation={[Math.PI / 2, 0, 0]}
                 castShadow
                 material-roughness={1}
                 dispose={null}
