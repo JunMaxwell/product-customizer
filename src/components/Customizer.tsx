@@ -1,13 +1,36 @@
 import { AiFillCamera, AiOutlineArrowLeft } from 'react-icons/ai'
 import { state } from '../store'
 import { useSnapshot } from 'valtio';
-import three2 from '../assets/three2_thumb.png';
-import pmndrs from '../assets/pmndrs_thumb.png';
-import react_thump from '../assets/react_thumb.png';
+import { useEffect, useState } from 'react';
+import viteSvg from '/vite.svg';
+
+interface DynamicImageProps {
+    imgName: string;
+}
+
+const DynamicImage = ({ imgName }: DynamicImageProps) => {
+    const [imgSrc, setImgSrc] = useState<string | undefined>();
+
+    useEffect(() => {
+        const loadImage = async () => {
+            try {
+                const imgModule = await import(`../assets/${imgName}.png`);
+                setImgSrc(imgModule.default);
+            } catch (error) {
+                console.error(error);
+                setImgSrc(viteSvg);
+            }
+        };
+
+        loadImage();
+    }, [imgName]);
+
+    return <img src={imgSrc} alt={`brand-img`} />;
+}
 
 export const Customizer = () => {
     const colors = ['#ccc', '#EFBD4E', '#80C670', '#726DE8', '#EF674E', '#353934'];
-    const decals = [react_thump, three2, pmndrs];
+    const decals = ['react', 'three2', 'pmndrs'];
     const snap = useSnapshot(state);
 
     return (
@@ -27,13 +50,21 @@ export const Customizer = () => {
                     <div className='decals--container'>
                         {decals.map((decal) => (
                             <div key={decal}
-                                className='decal'>
-                                <img src={decal} alt={`brand-img`} />
+                                className='decal'
+                                onClick={() => { state.selectedDecal = decal }}>
+                                <DynamicImage imgName={decal} />
                             </div>
                         ))}
                     </div>
                 </div>
-                <button className='share-btn' style={{ background: snap.selectedColor }}>
+                <button className='share-btn'
+                    style={{ background: snap.selectedColor }}
+                    onClick={() => {
+                        const link = document.createElement('a');
+                        link.setAttribute('download', 'canvas.png');
+                        link.setAttribute('href', document.querySelector('canvas')!.toDataURL().replace('image/png', 'image/octet-stream'));
+                        link.click();
+                    }}>
                     DOWNLOAD
                     <AiFillCamera size='1.3em' />
                 </button>

@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.5.3 shirt_baked.glb --transform --types
 Files: shirt_baked.glb [596.47KB] > D:\Work\r3f-demo\product-customizer\public\shirt_baked-transformed.glb [413.76KB] (31%)
 */
 import * as THREE from 'three'
-import { useGLTF } from "@react-three/drei";
+import { Decal, useGLTF, useTexture } from "@react-three/drei";
 import { GLTF } from 'three-stdlib'
 import { useSnapshot } from 'valtio';
 import { state } from '../store';
@@ -19,8 +19,10 @@ type GLTFResult = GLTF & {
         lambert1: THREE.MeshStandardMaterial
     }
 }
+
 export function Shirt(props: JSX.IntrinsicElements['group']) {
     const snap = useSnapshot(state)
+    const texture = useTexture(`/src/assets/${snap.selectedDecal}.png`)
     const { nodes, materials } = useGLTF('/shirt_baked-transformed.glb') as GLTFResult;
 
     useFrame((_, delta) =>
@@ -35,7 +37,14 @@ export function Shirt(props: JSX.IntrinsicElements['group']) {
                 castShadow
                 material-roughness={1}
                 dispose={null}
-            />
+            >
+                <Decal
+                    position={[-0.41, 0.1, -0.35]}
+                    rotation={[Math.PI /2, 0,  Math.PI / 2]}
+                    scale={0.15}
+                    map={texture}
+                />
+            </mesh>
         </group>
     )
 }
