@@ -1,11 +1,12 @@
-import { Logo } from "@pmndrs/branding"
-import { AiOutlineHighlight, AiOutlineShopping } from 'react-icons/ai'
+import { useSnapshot } from "valtio";
+import { Intro } from "./Intro.tsx";
+import { state } from "../store.ts";
+import { Logo } from "@pmndrs/branding";
+import { AiOutlineShopping } from "react-icons/ai";
+import { Customizer } from "./Customizer.tsx";
 
 export default function Overlay() {
-    return <Intro />
-}
-
-const Intro = () => {
+    const snap = useSnapshot(state)
     return (
         <div className="container">
             <header>
@@ -14,26 +15,7 @@ const Intro = () => {
                     <AiOutlineShopping size="3em" />
                 </div>
             </header>
-
-            <section key="main">
-                <div className="section--container">
-                    <div>
-                        <h1>LET'S DO IT.</h1>
-                    </div>
-                    <div className="support--content">
-                        <div>
-                            <p>
-                                Create your unique and exclusive shirt with our brand-new 3D
-                                customization tool. <strong>Unleash your imagination</strong>{' '}
-                                and define your own style.
-                            </p>
-                            <button style={{ background: 'black' }}>
-                                CUSTOMIZE IT <AiOutlineHighlight size="1.3em" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            {snap.intro ? <Intro /> : <Customizer />}
         </div>
     )
 }
