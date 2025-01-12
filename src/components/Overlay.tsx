@@ -1,9 +1,9 @@
 import { useSnapshot } from "valtio";
-import { Intro } from "./Intro.tsx";
-import { state } from "../store.ts";
 import { Logo } from "@pmndrs/branding";
 import { AiOutlineShopping } from "react-icons/ai";
+import { state } from "../store.ts";
 import { Customizer } from "./Customizer.tsx";
+import { Intro } from "./Intro.tsx";
 
 export default function Overlay() {
     const snap = useSnapshot(state)
@@ -15,7 +15,9 @@ export default function Overlay() {
                     <AiOutlineShopping size="3em" />
                 </div>
             </header>
-            {snap.intro ? <Intro /> : <Customizer />}
+            {snap.intro
+                ? <Intro />
+                : <Customizer/>}
         </div>
     )
 }
