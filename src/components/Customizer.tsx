@@ -1,10 +1,13 @@
 import { AiFillCamera, AiOutlineArrowLeft } from 'react-icons/ai'
 import { state } from '../store'
 import { useSnapshot } from 'valtio';
+import three2 from '../assets/three2_thumb.png';
+import pmndrs from '../assets/pmndrs_thumb.png';
+import react_thump from '../assets/react_thumb.png';
 
 export const Customizer = () => {
     const colors = ['#ccc', '#EFBD4E', '#80C670', '#726DE8', '#EF674E', '#353934'];
-    const decals = ['react', 'three2', 'pmndrs'];
+    const decals = [react_thump, three2, pmndrs];
     const snap = useSnapshot(state);
 
     return (
@@ -25,7 +28,7 @@ export const Customizer = () => {
                         {decals.map((decal) => (
                             <div key={decal}
                                 className='decal'>
-                                <img src={decal + '_thump.png'} alt={`brand-${decal}`} />
+                                <img src={decal} alt={`brand-img`} />
                             </div>
                         ))}
                     </div>
