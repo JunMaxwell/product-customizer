@@ -6,6 +6,10 @@ Files: shirt_baked.glb [596.47KB] > D:\Work\r3f-demo\product-customizer\public\s
 import * as THREE from 'three'
 import { useGLTF } from "@react-three/drei";
 import { GLTF } from 'three-stdlib'
+import { useSnapshot } from 'valtio';
+import { state } from '../store';
+import { useFrame } from '@react-three/fiber';
+import { easing } from 'maath';
 
 type GLTFResult = GLTF & {
     nodes: {
@@ -16,7 +20,12 @@ type GLTFResult = GLTF & {
     }
 }
 export function Shirt(props: JSX.IntrinsicElements['group']) {
-    const { nodes, materials } = useGLTF('/shirt_baked-transformed.glb') as GLTFResult
+    const snap = useSnapshot(state)
+    const { nodes, materials } = useGLTF('/shirt_baked-transformed.glb') as GLTFResult;
+
+    useFrame((_, delta) =>
+        easing.dampC(materials.lambert1.color, snap.selectedColor, 0.25, delta)
+    )
     return (
         <group {...props} dispose={null}>
             <mesh

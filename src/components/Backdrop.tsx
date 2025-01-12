@@ -1,10 +1,12 @@
 import { AccumulativeShadows, RandomizedLight } from '@react-three/drei'
-import { ReactThreeFiber } from '@react-three/fiber';
+import { ReactThreeFiber, useFrame } from '@react-three/fiber';
+import { easing } from 'maath';
 import { useRef } from 'react'
 import * as THREE from 'three'
+import { state } from '../store';
 type SoftShadowMaterialProps = {
     map: THREE.Texture;
-    color?: ReactThreeFiber.Color;
+    color?: THREE.Color;
     alphaTest?: number;
     blend?: number;
 };
@@ -21,6 +23,14 @@ interface AccumulativeContext {
 
 export const Backdrop = () => {
     const shadows = useRef<AccumulativeContext>(null)
+
+    useFrame((_, delta) =>
+        easing.dampC(
+            shadows.current?.getMesh()?.material?.color ?? new THREE.Color('#ffffff'),
+            new THREE.Color(state.selectedColor),
+            0.25,
+            delta
+        ));
 
     return (
         <AccumulativeShadows
